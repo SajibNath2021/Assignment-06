@@ -67,7 +67,8 @@ const createSlider = () => {
   document.querySelector('.main').style.display = 'block';
   // hide image aria
   imagesArea.style.display = 'none';
-  const duration = document.getElementById('doration').value || 1000;
+  const duration = document.getElementById('doration').value  || 1000;
+ if (duration >= 0) {
   sliders.forEach(slide => {
     let item = document.createElement('div')
     item.className = "slider-item";
@@ -81,6 +82,25 @@ const createSlider = () => {
     slideIndex++;
     changeSlide(slideIndex);
   }, duration);
+   
+ }
+ else{
+  sliders.forEach(slide => {
+    let item = document.createElement('div')
+    item.className = "slider-item";
+    item.innerHTML = `<img class="w-100"
+    src="${slide}"
+    alt="">`;
+    sliderContainer.appendChild(item)
+  })
+  alert("Negative value duration is 0");
+  changeSlide(0)
+  timer = setInterval(function () {
+    slideIndex++;
+    changeSlide(slideIndex);
+  }, duration= 0 )
+  
+ }
 }
 
 // change slider index 
