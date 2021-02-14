@@ -4,6 +4,7 @@ const galleryHeader = document.querySelector('.gallery-header');
 const searchBtn = document.getElementById('search-btn');
 const sliderBtn = document.getElementById('create-slider');
 const sliderContainer = document.getElementById('sliders');
+
 // selected image 
 let sliders = [];
 
@@ -88,17 +89,18 @@ const createSlider = () => {
   sliders.forEach(slide => {
     let item = document.createElement('div')
     item.className = "slider-item";
-    item.innerHTML = `<img class="w-100"
+    item.innerHTML = `
+    <h3> All Negative value duration is = 0 </h3>
+    <img class="w-100"
     src="${slide}"
     alt="">`;
     sliderContainer.appendChild(item)
   })
-  alert("Negative value duration is 0");
   changeSlide(0)
   timer = setInterval(function () {
     slideIndex++;
     changeSlide(slideIndex);
-  }, duration= 0 )
+  }, duration = 0 )
   
  }
 }
@@ -139,4 +141,13 @@ searchBtn.addEventListener('click', function () {
 
 sliderBtn.addEventListener('click', function () {
   createSlider()
+})
+
+const search = document.getElementById('search');
+search.addEventListener('keyup', function (e) {
+  
+  if (e.key == 'Enter') {
+    searchBtn.click();
+    
+  }
 })
