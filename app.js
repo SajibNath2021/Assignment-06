@@ -26,10 +26,11 @@ const showImages = (images) => {
     div.innerHTML = ` <img class="img-fluid img-thumbnail" onclick=selectItem(event,"${image.webformatURL}") src="${image.webformatURL}" alt="${image.tags}">`;
     gallery.appendChild(div)
   })
-
+  toggleBar();
 }
 
 const getImages = (query) => {
+  toggleBar();
   fetch(`https://pixabay.com/api/?key=${KEY}=${query}&image_type=photo&pretty=true`)
     .then(response => response.json())
     .then(data => showImages(data.hits))
@@ -40,22 +41,29 @@ let slideIndex = 0;
 const selectItem = (event, img) => {
   let element = event.target;
   element.classList.add('added');
- 
-  let item = sliders.indexOf(img);
+   let item = sliders.indexOf(img);
+  //  console.log(item);
+  //  console.log(sliders);
+  console.log(item);
   if (item === -1) {
     sliders.push(img);
   } else {
-    alert('Hey, Already added !')
+    const result = sliders.filter(a => a == item);
+    sliders.pop(result);
+    AddRemoveImg();
+    
   }
 }
 var timer
 const createSlider = () => {
   // check slider image length
+  
   if (sliders.length < 2) {
     alert('Select at least 2 image.')
     return;
   }
   // crate slider previous next area
+ 
   sliderContainer.innerHTML = '';
   const prevNext = document.createElement('div');
   prevNext.className = "prev-next d-flex w-100 justify-content-between align-items-center";
@@ -90,7 +98,8 @@ const createSlider = () => {
     let item = document.createElement('div')
     item.className = "slider-item";
     item.innerHTML = `
-    <h3> All Negative value duration is = 0 </h3>
+    <h3> All Negative value duration is = 0!!!.. Plz slide Manually !!..</h3>
+    
     <img class="w-100"
     src="${slide}"
     alt="">`;
@@ -101,7 +110,6 @@ const createSlider = () => {
     slideIndex++;
     changeSlide(slideIndex);
   }, duration = 0 )
-  
  }
 }
 
@@ -129,6 +137,7 @@ const changeSlide = (index) => {
   })
 
   items[index].style.display = "block"
+  
 }
 
 searchBtn.addEventListener('click', function () {
@@ -143,6 +152,7 @@ sliderBtn.addEventListener('click', function () {
   createSlider()
 })
 
+// enter button work
 const search = document.getElementById('search');
 search.addEventListener('keyup', function (e) {
   
@@ -151,3 +161,17 @@ search.addEventListener('keyup', function (e) {
     
   }
 })
+// remove image
+const AddRemoveImg = ()=>{
+  const addedClass = document.querySelector('.added');
+  addedClass.classList.remove('added');
+  
+}
+
+// loading spinner (bones mark part)
+const toggleBar = ()=>{
+  const sniper = document.getElementById('loading-spinner');
+    sniper.classList.toggle('d-none');
+  
+}
+
